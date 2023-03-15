@@ -1,4 +1,3 @@
-import { testLog } from "./utilities/utilities-test";
-import TestComponent from "./components/TestComponent";
+import RulesetEngine from "./RulesetEngine";
 
-export { testLog, TestComponent };
+export default RulesetEngine;

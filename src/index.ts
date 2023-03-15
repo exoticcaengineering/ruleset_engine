@@ -1,3 +1,3 @@
-import { TestComponent, testLog } from "./library";
+import RulesetEngine from "./library";
 
-export { TestComponent, testLog };
+export default RulesetEngine;

@@ -24,9 +24,8 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "outDir": "dist",
-    "rootDir": "./src"
-  },
-  "include": [
-    "src"
-  ]
+    "rootDir": "./src",
+    "sourceMap": false,
+    "declaration": true,
+  }
 }
