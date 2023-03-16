@@ -1,6 +1,7 @@
 /// <reference types="react" />
 type Props = {
     text: string;
+    onClick: () => void;
 };
-declare const Button: ({ text }: Props) => JSX.Element;
+declare const Button: ({ text, onClick }: Props) => JSX.Element;
 export default Button;

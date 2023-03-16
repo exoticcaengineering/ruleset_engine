@@ -1,4 +1,4 @@
-import RulesetEngine from "./library";
+import RulesetEngine from "./library/RulesetEngine";
 
 function App() {
   return (

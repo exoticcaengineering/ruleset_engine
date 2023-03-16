@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 type Props = {
     text: string;
+    onClick: () => void
 }
 
 const StyledButton = styled.button`
@@ -15,9 +16,9 @@ const StyledButton = styled.button`
     color: white;
 `;
 
-const Button = ({text}: Props) => {
+const Button = ({text, onClick}: Props) => {
   return (
-   <StyledButton>
+   <StyledButton onClick={onClick}>
     {text}
    </StyledButton>
   )

@@ -9,15 +9,15 @@ export const RulesetWrapper = styled.div`
     border-radius: 10px;
     font-family: Roboto;
     background-color: white;
-`;
 
-export const StyledTitle = styled.h4`
-    width: 100%;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.greyMid};
-    margin: 0;
-    font-size: 16px;
-    line-height: 60px;
-    font-family: Roboto;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colors.primaryBlue};
+    h4{
+        width: 100%;
+        border-bottom: 1px solid ${({ theme }) => theme.colors.greyMid};
+        margin: 0;
+        font-size: 16px;
+        line-height: 60px;
+        font-family: Roboto;
+        font-weight: 400;
+        color: ${({ theme }) => theme.colors.primaryBlue};
+    }
 `;

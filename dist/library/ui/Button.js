@@ -9,7 +9,7 @@ const StyledButton = styled.button `
     background-color: ${({ theme }) => theme.colors.primaryBlue};
     color: white;
 `;
-const Button = ({ text }) => {
-    return (_jsx(StyledButton, { children: text }));
+const Button = ({ text, onClick }) => {
+    return (_jsx(StyledButton, Object.assign({ onClick: onClick }, { children: text })));
 };
 export default Button;

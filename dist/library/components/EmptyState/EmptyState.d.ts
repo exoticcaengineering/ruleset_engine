@@ -1,4 +1,6 @@
 /// <reference types="react" />
-type Props = {};
-declare const EmptyState: (props: Props) => JSX.Element;
+type Props = {
+    switchView: () => void;
+};
+declare const EmptyState: ({ switchView }: Props) => JSX.Element;
 export default EmptyState;
