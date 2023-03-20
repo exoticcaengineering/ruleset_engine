@@ -1,5 +1,7 @@
 /// <reference types="react" />
 import "./fonts.css";
-type Props = {};
-declare const RulesetEngine: (props: Props) => JSX.Element;
+type Props = {
+    schemaEndpoint: string;
+};
+declare const RulesetEngine: ({ schemaEndpoint }: Props) => JSX.Element;
 export default RulesetEngine;

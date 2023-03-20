@@ -5,26 +5,47 @@ import { RulesetWrapper } from "./RulesetEngine.styles";
 import { ThemeProvider } from "styled-components";
 import { defaultTheme } from "./theme";
 import "./fonts.css";
-import InputRow from "./components/InputRow/InputRow";
-type Props = {};
+import { dummySchema } from "./utilities/dummyData";
+import RulesList from "./components/RulesList/RulesList";
+import useSchema from "./hooks/useSchema";
+type Props = {
+  schemaEndpoint: string;
+};
 
-const RulesetEngine = (props: Props) => {
-  const [rules, setRules] = useState<{ id: string }[]>([]);
+const RulesetEngine = ({schemaEndpoint}: Props) => {
+  const [existingRules, setRules] = useState<RuleValues[]>([]);
+  const { error } = useSchema(schemaEndpoint);
+  console.log(error);
 
   const switchView = () => {
-    setRules([{id:''}])
+    setRules([{ name: "placeholder", operator: "", value: "" }]);
   }
+
+  const addRule = (newRule: RuleValues) => {
+    setRules((prev) => [...prev, newRule]);
+  };
+
+  const removeRule = (key: string) => {
+    const updatedRules = existingRules.filter(i => i.name !== key);
+    // const updatedRules = existingRules.filter(i => [key, 'placeholder'].indexOf(i.name!) ===  -1);
+    setRules(updatedRules)
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <RulesetWrapper>
         <h4>Rules</h4>
-        {!rules.length ? (
+        {!existingRules.length ? (
           <EmptyState switchView={switchView} />
         ) : (
           <>
-            <InputRow />
-            <Table/>
+            <RulesList
+              schema={dummySchema}
+              existingRules={existingRules.filter((i) => i.name !== "placeholder")}
+              addRule={addRule}
+              removeRule={removeRule}
+            />
+            <Table />
           </>
         )}
       </RulesetWrapper>

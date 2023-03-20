@@ -1,5 +1,11 @@
 import spinner from "../../../assets/spinner.svg";
-import { StyledLoader, TableWrapper } from "./TableStyles";
+import {
+  StyledLoader,
+  TableWrapper,
+  TableHeader,
+  Column,
+  ResultsContainer,
+} from "./TableStyles";
 
 type Props = {
   query?: {}[];
@@ -8,7 +14,16 @@ type Props = {
 const Table = ({ query }: Props) => {
   return (
     <TableWrapper>
-      <StyledLoader src={spinner} alt={"spinner"} />
+      <TableHeader>
+        <Column minWidth={"200px"}>No. products: 1500</Column>
+        <Column>ID</Column>
+        <Column>Market</Column>
+        <Column minWidth={"300px"}>Name</Column>
+        <Column>Destination</Column>
+      </TableHeader>
+      <ResultsContainer>
+        <StyledLoader src={spinner} alt={"spinner"} />
+      </ResultsContainer>
     </TableWrapper>
   );
 };
