@@ -12,6 +12,6 @@ const StyledButton = styled.button `
     cursor: ${({ disabled }) => disabled ? 'initial' : 'pointer'};
 `;
 const Button = ({ text, onClick, disabled = false }) => {
-    return (_jsx(StyledButton, Object.assign({ onClick: onClick, disabled: disabled }, { children: text })));
+    return (_jsx(StyledButton, Object.assign({ type: 'submit', onClick: onClick, disabled: disabled }, { children: text })));
 };
 export default Button;

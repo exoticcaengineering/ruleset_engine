@@ -51,7 +51,7 @@ const RuleInputs = ({ schema, addFilter }: Props) => {
       />
       <InputBox
         value={inputValues.value || ''}
-        inputType={currentSchema?.fieldType !== "string" ? "number" : "text"}
+        inputType={currentSchema?.fieldType === "number" ? "number" : "text"}
         onChange={(val: string) => updateValue("value", val)}
       />
       <Button

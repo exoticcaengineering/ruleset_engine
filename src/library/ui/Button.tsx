@@ -21,7 +21,7 @@ const StyledButton = styled.button<{ disabled: boolean }>`
 
 const Button = ({text, onClick, disabled = false}: Props) => {
   return (
-   <StyledButton onClick={onClick} disabled={disabled}>
+   <StyledButton type='submit' onClick={onClick} disabled={disabled}>
     {text}
    </StyledButton>
   )

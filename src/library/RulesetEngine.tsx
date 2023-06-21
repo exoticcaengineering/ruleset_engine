@@ -1,6 +1,6 @@
 import { useState } from "react";
 import EmptyState from "./components/EmptyState/EmptyState";
-import Table from "./components/Table/Table";
+// import Table from "./components/Table/Table";
 import { RulesetWrapper } from "./RulesetEngine.styles";
 import { ThemeProvider } from "styled-components";
 import { defaultTheme } from "./theme";
@@ -12,24 +12,25 @@ type Props = {
   schemaEndpoint: string;
 };
 
-const RulesetEngine = ({schemaEndpoint}: Props) => {
+const RulesetEngine = ({ schemaEndpoint }: Props) => {
   const [existingRules, setRules] = useState<RuleValues[]>([]);
-  const { error } = useSchema(schemaEndpoint);
+  const { error, schemaData, isLoading } = useSchema(schemaEndpoint);
   console.log(error);
 
   const switchView = () => {
     setRules([{ name: "placeholder", operator: "", value: "" }]);
-  }
+  };
 
   const addRule = (newRule: RuleValues) => {
     setRules((prev) => [...prev, newRule]);
   };
 
   const removeRule = (key: string) => {
-    const updatedRules = existingRules.filter(i => i.name !== key);
+    const updatedRules = existingRules.filter((i) => i.name !== key);
     // const updatedRules = existingRules.filter(i => [key, 'placeholder'].indexOf(i.name!) ===  -1);
-    setRules(updatedRules)
+    setRules(updatedRules);
   };
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -41,11 +42,14 @@ const RulesetEngine = ({schemaEndpoint}: Props) => {
           <>
             <RulesList
               schema={dummySchema}
-              existingRules={existingRules.filter((i) => i.name !== "placeholder")}
+              existingRules={existingRules.filter(
+                (i) => i.name !== "placeholder"
+              )}
               addRule={addRule}
               removeRule={removeRule}
             />
-            <Table />
+            {/* // Table component to be excluded until V2 */}
+            {/* <Table /> */}
           </>
         )}
       </RulesetWrapper>

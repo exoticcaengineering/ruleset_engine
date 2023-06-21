@@ -21,9 +21,10 @@ const RuleInputs = ({ schema, addFilter }) => {
         setValues(Object.assign(Object.assign({}, initialValues), { name: value }));
     };
     const handleAddRule = () => {
+        setSchema(null);
         addFilter(inputValues);
         setValues(initialValues);
     };
-    return (_jsxs(RuleInputsWrapper, { children: [_jsx(Dropdown, { value: inputValues.name, options: schema.map(i => i.name), variant: "rectangle", onSelect: (val) => selectSchema(val) }), _jsx(Dropdown, { value: inputValues.operator, disabled: !currentSchema, options: (currentSchema === null || currentSchema === void 0 ? void 0 : currentSchema.operators) || [], variant: "rounded", onSelect: (val) => updateValue("operator", val) }), _jsx(InputBox, { value: inputValues.value || '', inputType: (currentSchema === null || currentSchema === void 0 ? void 0 : currentSchema.fieldType) !== "string" ? "number" : "text", onChange: (val) => updateValue("value", val) }), _jsx(Button, { disabled: !!Object.values(inputValues).some((i) => i === null || i === ""), onClick: handleAddRule, text: "+ Add rule" })] }));
+    return (_jsxs(RuleInputsWrapper, { children: [_jsx(Dropdown, { value: inputValues.name, options: schema.map(i => i.name), variant: "rectangle", onSelect: (val) => selectSchema(val) }), _jsx(Dropdown, { value: inputValues.operator, disabled: !currentSchema, options: (currentSchema === null || currentSchema === void 0 ? void 0 : currentSchema.operators) || [], variant: "rounded", onSelect: (val) => updateValue("operator", val) }), _jsx(InputBox, { value: inputValues.value || '', inputType: (currentSchema === null || currentSchema === void 0 ? void 0 : currentSchema.fieldType) === "number" ? "number" : "text", onChange: (val) => updateValue("value", val) }), _jsx(Button, { disabled: !!Object.values(inputValues).some((i) => i === null || i === ""), onClick: handleAddRule, text: "+ Add rule" })] }));
 };
 export default RuleInputs;
