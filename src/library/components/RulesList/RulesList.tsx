@@ -17,7 +17,7 @@ const RulesList = ({ schema, existingRules, addRule, removeRule }: Props) => {
 
   return (
     <RulesWrapper border={!!existingRules.length}>
-      <RuleInputs schema={filteredSchema()} addFilter={addRule} />
+      <RuleInputs schema={filteredSchema()} addRule={addRule} />
       <div className="existingRules">
         {existingRules.map((i: RuleValues, index: number) => (
           <RuleRow

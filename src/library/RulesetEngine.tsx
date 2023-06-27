@@ -1,20 +1,22 @@
-import { useState } from "react";
 import EmptyState from "./components/EmptyState/EmptyState";
 // import Table from "./components/Table/Table";
 import { RulesetWrapper } from "./RulesetEngine.styles";
 import { ThemeProvider } from "styled-components";
 import { defaultTheme } from "./theme";
 import "./fonts.css";
-import { dummySchema } from "./utilities/dummyData";
 import RulesList from "./components/RulesList/RulesList";
 import useSchema from "./hooks/useSchema";
+import LoadingState from "./ui/LoadingState";
+import useRules from "./hooks/useRules";
 type Props = {
-  schemaEndpoint: string;
+  rulesetEndpoint: string;
+  discountUuid: string;
+  discountName: string;
 };
 
-const RulesetEngine = ({ schemaEndpoint }: Props) => {
-  const [existingRules, setRules] = useState<RuleValues[]>([]);
-  const { error, schemaData, isLoading } = useSchema(schemaEndpoint);
+const RulesetEngine = ({ rulesetEndpoint, discountUuid, discountName }: Props) => {
+  const {existingRules, setRules} = useRules(rulesetEndpoint, discountUuid, discountName);
+  const { error, schemaData, isLoading } = useSchema(`${rulesetEndpoint}/schema`);
   console.log(error);
 
   const switchView = () => {
@@ -27,34 +29,48 @@ const RulesetEngine = ({ schemaEndpoint }: Props) => {
 
   const removeRule = (key: string) => {
     const updatedRules = existingRules.filter((i) => i.name !== key);
-    // const updatedRules = existingRules.filter(i => [key, 'placeholder'].indexOf(i.name!) ===  -1);
     setRules(updatedRules);
   };
   
+  if(isLoading) return (
+    <LoadingState/>
+  )
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <RulesetWrapper>
-        <h4>Rules</h4>
-        {!existingRules.length ? (
-          <EmptyState switchView={switchView} />
-        ) : (
-          <>
-            <RulesList
-              schema={dummySchema}
-              existingRules={existingRules.filter(
-                (i) => i.name !== "placeholder"
-              )}
-              addRule={addRule}
-              removeRule={removeRule}
-            />
-            {/* // Table component to be excluded until V2 */}
-            {/* <Table /> */}
-          </>
-        )}
-      </RulesetWrapper>
-    </ThemeProvider>
+    <>
+      <h4>Rules <span>{discountUuid}</span></h4>
+      {!existingRules.length ? (
+        <EmptyState switchView={switchView} />
+      ) : (
+        <>
+          <RulesList
+            schema={schemaData}
+            existingRules={existingRules.filter(
+              (i) => i.name !== "placeholder"
+            )}
+            addRule={addRule}
+            removeRule={removeRule}
+          />
+          {/* // Table component to be excluded until V2 */}
+          {/* <Table /> */}
+        </>
+      )}
+    </>
   );
 };
 
-export default RulesetEngine;
+const App = ({ rulesetEndpoint, discountUuid, discountName }: Props) => {
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <RulesetWrapper>
+        <RulesetEngine
+          rulesetEndpoint={rulesetEndpoint}
+          discountUuid={discountUuid}
+          discountName={discountName}
+        />
+      </RulesetWrapper>
+    </ThemeProvider>
+  );
+}
+
+export default App;

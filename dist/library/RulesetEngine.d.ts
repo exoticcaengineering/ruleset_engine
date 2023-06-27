@@ -1,7 +1,9 @@
 /// <reference types="react" />
 import "./fonts.css";
 type Props = {
-    schemaEndpoint: string;
+    rulesetEndpoint: string;
+    discountUuid: string;
+    discountName: string;
 };
-declare const RulesetEngine: ({ schemaEndpoint }: Props) => JSX.Element;
-export default RulesetEngine;
+declare const App: ({ rulesetEndpoint, discountUuid, discountName }: Props) => JSX.Element;
+export default App;

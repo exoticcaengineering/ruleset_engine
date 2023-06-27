@@ -6,7 +6,7 @@ import { RuleInputsWrapper } from "./RuleInputs.styles"
 
 type Props = {
   schema: RuleSchema[];
-  addFilter(newFilter: RuleValues): void;
+  addRule(newFilter: RuleValues): void;
 }
 
 const initialValues: RuleValues = {
@@ -14,7 +14,7 @@ const initialValues: RuleValues = {
   operator: null,
   value: null
 }
-const RuleInputs = ({ schema, addFilter }: Props) => {
+const RuleInputs = ({ schema, addRule }: Props) => {
   const [inputValues, setValues] = useState<RuleValues>(initialValues);
   const [ currentSchema, setSchema ] = useState<RuleSchema | null>(null)
 
@@ -30,7 +30,7 @@ const RuleInputs = ({ schema, addFilter }: Props) => {
 
   const handleAddRule = () => {
     setSchema(null)
-    addFilter(inputValues)
+    addRule(inputValues)
     setValues(initialValues)
   };
 

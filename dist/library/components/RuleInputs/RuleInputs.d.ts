@@ -1,7 +1,7 @@
 /// <reference types="react" />
 type Props = {
     schema: RuleSchema[];
-    addFilter(newFilter: RuleValues): void;
+    addRule(newFilter: RuleValues): void;
 };
-declare const RuleInputs: ({ schema, addFilter }: Props) => JSX.Element;
+declare const RuleInputs: ({ schema, addRule }: Props) => JSX.Element;
 export default RuleInputs;

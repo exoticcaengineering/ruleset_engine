@@ -1,14 +1,17 @@
-import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from "react";
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import EmptyState from "./components/EmptyState/EmptyState";
 // import Table from "./components/Table/Table";
+import { RulesetWrapper } from "./RulesetEngine.styles";
+import { ThemeProvider } from "styled-components";
+import { defaultTheme } from "./theme";
 import "./fonts.css";
-import { dummySchema } from "./utilities/dummyData";
 import RulesList from "./components/RulesList/RulesList";
 import useSchema from "./hooks/useSchema";
-const RulesetEngine = ({ schemaEndpoint }) => {
-    const [existingRules, setRules] = useState([]);
-    const { error, schemaData, isLoading } = useSchema(schemaEndpoint);
+import LoadingState from "./ui/LoadingState";
+import useRules from "./hooks/useRules";
+const RulesetEngine = ({ rulesetEndpoint, discountUuid, discountName }) => {
+    const { existingRules, setRules } = useRules(rulesetEndpoint, discountUuid, discountName);
+    const { error, schemaData, isLoading } = useSchema(`${rulesetEndpoint}/schema`);
     console.log(error);
     const switchView = () => {
         setRules([{ name: "placeholder", operator: "", value: "" }]);
@@ -18,11 +21,13 @@ const RulesetEngine = ({ schemaEndpoint }) => {
     };
     const removeRule = (key) => {
         const updatedRules = existingRules.filter((i) => i.name !== key);
-        // const updatedRules = existingRules.filter(i => [key, 'placeholder'].indexOf(i.name!) ===  -1);
         setRules(updatedRules);
     };
     if (isLoading)
-        return _jsx("h1", { children: "\u00F6\u00D6\u00F6" });
-    return (_jsxs(_Fragment, { children: [_jsx("h4", { children: "Rules" }), !existingRules.length ? (_jsx(EmptyState, { switchView: switchView })) : (_jsx(_Fragment, { children: _jsx(RulesList, { schema: dummySchema, existingRules: existingRules.filter((i) => i.name !== "placeholder"), addRule: addRule, removeRule: removeRule }) }))] }));
+        return (_jsx(LoadingState, {}));
+    return (_jsxs(_Fragment, { children: [_jsxs("h4", { children: ["Rules ", _jsx("span", { children: discountUuid })] }), !existingRules.length ? (_jsx(EmptyState, { switchView: switchView })) : (_jsx(_Fragment, { children: _jsx(RulesList, { schema: schemaData, existingRules: existingRules.filter((i) => i.name !== "placeholder"), addRule: addRule, removeRule: removeRule }) }))] }));
 };
-export default RulesetEngine;
+const App = ({ rulesetEndpoint, discountUuid, discountName }) => {
+    return (_jsx(ThemeProvider, Object.assign({ theme: defaultTheme }, { children: _jsx(RulesetWrapper, { children: _jsx(RulesetEngine, { rulesetEndpoint: rulesetEndpoint, discountUuid: discountUuid, discountName: discountName }) }) })));
+};
+export default App;
