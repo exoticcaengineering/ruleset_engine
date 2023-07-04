@@ -10,7 +10,7 @@ import {
 type Props = {
   index: number;
   values: RuleValues;
-  removeRule(key: string): void;
+  removeRule(rulesetField: string, rulesetOperator: string): void;
 };
 
 const RuleRow = ({ values, index, removeRule }: Props) => {
@@ -36,7 +36,7 @@ const RuleRow = ({ values, index, removeRule }: Props) => {
         readOnly
       />
       <InputBox value={values.value} inputType={"text"} readOnly />
-      <RemoveBtn onClick={()=>removeRule(values.name!)} />
+      <RemoveBtn onClick={()=>removeRule(values.name!, values.operator!)} />
     </RuleRowContainer>
   );
 };

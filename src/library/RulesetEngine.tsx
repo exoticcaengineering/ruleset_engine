@@ -12,33 +12,37 @@ type Props = {
   rulesetEndpoint: string;
   discountUuid: string;
   discountName: string;
+  rulesetType: RulesetType
 };
 
-const RulesetEngine = ({ rulesetEndpoint, discountUuid, discountName }: Props) => {
-  const {existingRules, setRules} = useRules(rulesetEndpoint, discountUuid, discountName);
-  const { error, schemaData, isLoading } = useSchema(`${rulesetEndpoint}/schema`);
+const RulesetEngine = ({
+  rulesetEndpoint,
+  discountUuid,
+  discountName,
+  rulesetType,
+}: Props) => {
+  const { existingRules, setRules, addRule, removeRule } = useRules(
+    rulesetEndpoint,
+    discountUuid,
+    discountName,
+    rulesetType
+  );
+  const { error, schemaData, isLoading } = useSchema(
+    `${rulesetEndpoint}/schema`
+  );
   console.log(error);
 
   const switchView = () => {
     setRules([{ name: "placeholder", operator: "", value: "" }]);
   };
 
-  const addRule = (newRule: RuleValues) => {
-    setRules((prev) => [...prev, newRule]);
-  };
-
-  const removeRule = (key: string) => {
-    const updatedRules = existingRules.filter((i) => i.name !== key);
-    setRules(updatedRules);
-  };
-  
-  if(isLoading) return (
-    <LoadingState/>
-  )
+  if (isLoading) return <LoadingState />;
 
   return (
     <>
-      <h4>Rules <span>{discountUuid}</span></h4>
+      <h4>
+        Rules <span>{discountUuid}</span>
+      </h4>
       {!existingRules.length ? (
         <EmptyState switchView={switchView} />
       ) : (
@@ -59,7 +63,7 @@ const RulesetEngine = ({ rulesetEndpoint, discountUuid, discountName }: Props) =
   );
 };
 
-const App = ({ rulesetEndpoint, discountUuid, discountName }: Props) => {
+const App = ({ rulesetEndpoint, discountUuid, discountName, rulesetType }: Props) => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <RulesetWrapper>
@@ -67,6 +71,7 @@ const App = ({ rulesetEndpoint, discountUuid, discountName }: Props) => {
           rulesetEndpoint={rulesetEndpoint}
           discountUuid={discountUuid}
           discountName={discountName}
+          rulesetType={rulesetType}
         />
       </RulesetWrapper>
     </ThemeProvider>

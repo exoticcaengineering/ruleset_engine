@@ -6,7 +6,7 @@ type Props = {
   schema: RuleSchema[];
   existingRules: RuleValues[];
   addRule: (newRule: RuleValues) => void;
-  removeRule: (key: string) => void;
+  removeRule: (rulesetField: string, rulesetOperator: string) => void;
 };
 
 const RulesList = ({ schema, existingRules, addRule, removeRule }: Props) => {

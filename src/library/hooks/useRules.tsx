@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import axios from "axios";
+import { parseRulesetResponse } from "../utilities/parseRulesetResponse";
 
 type CallError = {
   message: string;
@@ -14,57 +16,80 @@ const options = {
   },
 };
 
-const useRules = (url: string, discountUuid: string, discountName: string) => {
+const useRules = (
+  url: string,
+  discountUuid: string,
+  discountName: string,
+  rulesetType: RulesetType
+) => {
   const [existingRules, setRules] = useState<RuleValues[]>([]);
   const [rulesetUuid, setUuid] = useState<string | null>(null);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<CallError | undefined>();
 
+  const uuidKey = rulesetType === "discount_tool" ? 'discountUuid' : 'landingGeneratorUuid'
+  const uuidParam = rulesetType === "discount_tool" ? 'discountUuid' : 'landingUuid'
+
   const addRule = async (newRule: RuleValues) => {
     const payload = {
-        name: discountName.replace(/\s/g, ''),
-        description: discountName,
-        rulesetType: 'discount_tool',
-        active: true,
-        startsOn: null,
-        endsOn: null,
-        rulesetField: newRule.name,
-        rulesetOperator: newRule.operator,
-        value: newRule.value,
-        discountToolUuid: discountUuid
-    }
+      [uuidKey]: discountUuid,
+      name: discountName.replace(/\s/g, ""),
+      description: discountName,
+      rulesetType: rulesetType,
+      active: true,
+      startsOn: null,
+      endsOn: null,
+      rulesetField: newRule.name,
+      rulesetOperator: newRule.operator,
+      value: newRule.value,
+    };
     console.log(payload);
-    const res = await axios.post(`${url}/${rulesetUuid || '1234-5678'}`, payload);
+    const res = await axios.post(`${url}/${rulesetUuid || uuidv4()}`, payload);
     console.log(res);
     setRules((prev) => [...prev, newRule]);
   };
 
-  useEffect(() => {
+  const removeRule = async (rulesetField: string, rulesetOperator: string) => {
+    const payload = {
+      rulesetUuid,
+      rulesetField,
+      rulesetOperator,
+    };
+    await axios.delete(`${url}/ruleset-setting`, {
+      headers: options.headers,
+      data: payload,
+    });
+    const updatedRules = existingRules.filter((i) => i.name !== rulesetField);
+    setRules(updatedRules);
+  }
 
+  useEffect(() => {
     const fetchRuleset = async () => {
       try {
-        const { data } = await axios.get<{current: any, uuid: string}>(
-          `${url}?discountUuid=${discountUuid}`,
+        const { data } = await axios.get<ResponseData>(
+          `${url}?${uuidParam}=${discountUuid}`,
           options
         );
-        setRules(data.current.schema);
-        setUuid(data.uuid)
+        console.log('fetchRules data: ', data)
+        setRules(parseRulesetResponse(data));
+        setUuid(data[0].uuid);
 
       } catch (error) {
         setError(error as CallError);
         setRules([]);
       }
-
       setLoading(false);
     };
+
     fetchRuleset();
 
-  }, [discountUuid, url]);
+  }, [discountUuid, url, uuidParam]);
 
   return {
     existingRules,
     setRules,
     addRule,
+    removeRule,
     loadingRules: isLoading,
     errorRules: error,
   };

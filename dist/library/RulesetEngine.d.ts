@@ -4,6 +4,7 @@ type Props = {
     rulesetEndpoint: string;
     discountUuid: string;
     discountName: string;
+    rulesetType: RulesetType;
 };
-declare const App: ({ rulesetEndpoint, discountUuid, discountName }: Props) => JSX.Element;
+declare const App: ({ rulesetEndpoint, discountUuid, discountName, rulesetType }: Props) => JSX.Element;
 export default App;
