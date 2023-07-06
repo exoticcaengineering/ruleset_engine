@@ -26,37 +26,37 @@ export const dummySchema: RuleSchema[] = [
   },
   {
     name: "duration",
-    fieldType: "integer",
+    fieldType: "number",
     operators: ["equal", "not_equal", "greater_than", "less_than"],
   },
   {
     name: "lead_price",
-    fieldType: "decimal",
+    fieldType: "number",
     operators: ["equal", "not_equal", "greater_than", "less_than"],
   },
   {
     name: "nights",
-    fieldType: "integer",
+    fieldType: "number",
     operators: ["equal", "not_equal", "greater_than", "less_than"],
   },
   {
     name: "passengers",
-    fieldType: "integer",
+    fieldType: "number",
     operators: ["equal", "not_equal", "greater_than", "less_than"],
   },
   {
     name: "price_range",
-    fieldType: "array",
+    fieldType: "number_range",
     operators: ["equal", "not_equal", "greater_than", "less_than"],
   },
   {
     name: "price",
-    fieldType: "decimal",
+    fieldType: "number",
     operators: ["equal", "not_equal", "greater_than", "less_than"],
   },
   {
     name: "product_ids",
-    fieldType: "integer",
+    fieldType: "number",
     operators: ["equal", "not_equal"],
   },
   {

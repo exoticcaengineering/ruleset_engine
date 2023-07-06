@@ -24,7 +24,8 @@ const useRules = (url, discountUuid, discountName, rulesetType) => {
     const [error, setError] = useState();
     const uuidKey = rulesetType === "discount_tool" ? 'discountUuid' : 'landingGeneratorUuid';
     const uuidParam = rulesetType === "discount_tool" ? 'discountUuid' : 'landingUuid';
-    const addRule = (newRule) => __awaiter(void 0, void 0, void 0, function* () {
+    const addRule = (newRule) => {
+        setRules((prev) => [...prev, newRule]);
         const payload = {
             [uuidKey]: discountUuid,
             name: discountName.replace(/\s/g, ""),
@@ -37,24 +38,21 @@ const useRules = (url, discountUuid, discountName, rulesetType) => {
             rulesetOperator: newRule.operator,
             value: newRule.value,
         };
-        console.log(payload);
-        const res = yield axios.post(`${url}/${rulesetUuid || uuidv4()}`, payload);
-        console.log(res);
-        setRules((prev) => [...prev, newRule]);
-    });
-    const removeRule = (rulesetField, rulesetOperator) => __awaiter(void 0, void 0, void 0, function* () {
+        axios.post(`${url}/${rulesetUuid || uuidv4()}`, payload);
+    };
+    const removeRule = (rulesetField, rulesetOperator) => {
+        const updatedRules = existingRules.filter((i) => i.name !== rulesetField);
+        setRules(updatedRules);
         const payload = {
             rulesetUuid,
             rulesetField,
             rulesetOperator,
         };
-        yield axios.delete(`${url}/ruleset-setting`, {
+        axios.delete(`${url}/ruleset-setting`, {
             headers: options.headers,
             data: payload,
         });
-        const updatedRules = existingRules.filter((i) => i.name !== rulesetField);
-        setRules(updatedRules);
-    });
+    };
     useEffect(() => {
         const fetchRuleset = () => __awaiter(void 0, void 0, void 0, function* () {
             try {

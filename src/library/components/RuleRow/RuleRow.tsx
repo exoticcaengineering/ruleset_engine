@@ -1,5 +1,6 @@
 import Dropdown from "../../ui/Dropdown";
 import InputBox from "../../ui/InputBox";
+import RangeInputs from "../../ui/RangeInputs";
 import {
   RuleRowContainer,
   Combiner,
@@ -35,7 +36,12 @@ const RuleRow = ({ values, index, removeRule }: Props) => {
         variant={"rounded"}
         readOnly
       />
-      <InputBox value={values.value} inputType={"text"} readOnly />
+      {
+        values.fieldType !== 'number_range' ? 
+          <InputBox value={values.value} inputType={"string"} readOnly />
+        : <RangeInputs values={values.value} readOnly />
+
+      }
       <RemoveBtn onClick={()=>removeRule(values.name!, values.operator!)} />
     </RuleRowContainer>
   );

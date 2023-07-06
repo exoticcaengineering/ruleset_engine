@@ -1,8 +1,8 @@
 /// <reference types="react" />
 type Props = {
-    inputType: "number" | "text";
+    inputType: FieldType;
     onChange?: (val: string) => void;
-    value: string | null;
+    value: string;
     readOnly?: boolean;
 };
 declare const InputBox: ({ inputType, onChange, value, readOnly }: Props) => JSX.Element;

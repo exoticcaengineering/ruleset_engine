@@ -3,11 +3,12 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 type Props = {
-  inputType: "number" | "text";
+  inputType: FieldType;
   onChange?: (val: string) => void;
-  value: string | null;
+  value: string;
   readOnly?: boolean;
 };
+
 const InputWrapper = styled.input<{ readOnly: boolean }>`
   font-family: "Roboto";
   height: 35px;
@@ -21,8 +22,9 @@ const InputWrapper = styled.input<{ readOnly: boolean }>`
   overflow: visible;
   box-sizing: border-box;
   padding: 0 7px;
-  border-style: ${({ readOnly }) => readOnly ? 'dashed' : 'solid'};
-  pointer-events: ${({ readOnly }) => readOnly ? 'none' : 'all'};
+  border-style: ${({ readOnly }) => (readOnly ? "dashed" : "solid")};
+  pointer-events: ${({ readOnly }) => (readOnly ? "none" : "all")};
+  border-radius: 3px;
 
   &::placeholder {
     font-style: italic;
@@ -42,6 +44,19 @@ const InputBox = ({ inputType, onChange, value, readOnly }: Props) => {
       e.target!.value = e.target.value.replace(/[^0-9 \,]/, "");
     onChange && onChange(e.target.value);
   };
+
+  if(inputType === "date") {
+    return (
+      <InputWrapper
+        ref={ref}
+        type="date"
+        onInput={handleChange}
+        defaultValue={value || ""}
+        placeholder={"Enter value"}
+        readOnly={!!readOnly}
+      />
+    );
+  }
 
   return (
     <InputWrapper

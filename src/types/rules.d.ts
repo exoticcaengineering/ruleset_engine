@@ -2,14 +2,15 @@ declare type RulesetType = 'discount_tool' | 'landing_generator' | 'automate_pro
 
 type RuleSchema = {
   name: string;
-  fieldType: string;
+  fieldType: FieldType;
   operators: string[];
 };
 
 type RuleValues = {
   name: string | null;
   operator: string | null;
-  value: string | null;
+  value: any;
+  fieldType: FieldType;
 };
 
 type RulesetSchemaObject =  {
@@ -20,7 +21,7 @@ type RulesetSchemaObject =  {
   schema : {
     field: string;
     operators: string[];
-    type: string;
+    type: FieldType;
   }
 }
 type RulesetData = {
@@ -28,3 +29,5 @@ type RulesetData = {
   schema: RulesetSchemaObject[];
 };
 type ResponseData = RulesetData[];
+
+type FieldType = 'array' | 'string' | 'number' | 'date' | 'number_range' | undefined;

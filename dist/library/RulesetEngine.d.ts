@@ -6,5 +6,5 @@ type Props = {
     discountName: string;
     rulesetType: RulesetType;
 };
-declare const App: ({ rulesetEndpoint, discountUuid, discountName, rulesetType }: Props) => JSX.Element;
-export default App;
+declare const RulesetEngine: ({ rulesetEndpoint, discountUuid, discountName, rulesetType, }: Props) => JSX.Element;
+export default RulesetEngine;

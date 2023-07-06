@@ -22,7 +22,6 @@ const useSchema = (url) => {
     useEffect(() => {
         const fetchSchema = () => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                console.log(options);
                 const { data } = yield axios.get(url, options);
                 setSchemaData(data);
             }

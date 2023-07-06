@@ -1,44 +1,54 @@
 import { useState } from "react";
-import Button from "../../ui/Button"
-import Dropdown from "../../ui/Dropdown"
+import Button from "../../ui/Button";
+import Dropdown from "../../ui/Dropdown";
 import InputBox from "../../ui/InputBox";
-import { RuleInputsWrapper } from "./RuleInputs.styles"
+import RangeInputs from "../../ui/RangeInputs";
+import { RuleInputsWrapper } from "./RuleInputs.styles";
 
 type Props = {
   schema: RuleSchema[];
   addRule(newFilter: RuleValues): void;
-}
+};
 
 const initialValues: RuleValues = {
   name: null,
   operator: null,
-  value: null
-}
+  value: null,
+  fieldType: undefined,
+};
 const RuleInputs = ({ schema, addRule }: Props) => {
   const [inputValues, setValues] = useState<RuleValues>(initialValues);
-  const [ currentSchema, setSchema ] = useState<RuleSchema | null>(null)
+  const [currentSchema, setSchema] = useState<RuleSchema | null>(null);
 
   const updateValue = (key: string, value: any) => {
     setValues({ ...inputValues, [key]: value });
   };
 
   const selectSchema = (value: string) => {
-    const selectedSchema = schema.find(i => i.name === value);
-    setSchema(selectedSchema!);
-    setValues({ ...initialValues, name: value })
-  }
+    const selectedSchema = schema.find((i) => i.name === value);
+    if(selectedSchema){
+      setValues(initialValues);
+      setSchema(selectedSchema);
+      setValues({
+        ...initialValues,
+        name: selectedSchema.name,
+        fieldType: selectedSchema.fieldType,
+      });
+    }
+  };
 
-  const handleAddRule = () => {
-    setSchema(null)
-    addRule(inputValues)
-    setValues(initialValues)
+  const handleAddRule = (e: any) => {
+    e.preventDefault();
+    setSchema(null);
+    addRule(inputValues);
+    setValues(initialValues);
   };
 
   return (
     <RuleInputsWrapper>
       <Dropdown
         value={inputValues.name}
-        options={schema.map(i => i.name)}
+        options={schema.map((i) => i.name)}
         variant={"rectangle"}
         onSelect={(val: string) => selectSchema(val)}
       />
@@ -49,20 +59,27 @@ const RuleInputs = ({ schema, addRule }: Props) => {
         variant={"rounded"}
         onSelect={(val: string) => updateValue("operator", val)}
       />
-      <InputBox
-        value={inputValues.value || ''}
-        inputType={currentSchema?.fieldType === "number" ? "number" : "text"}
-        onChange={(val: string) => updateValue("value", val)}
-      />
+      {currentSchema?.fieldType !== "number_range" ? (
+        <InputBox
+          value={inputValues.value || ""}
+          inputType={currentSchema?.fieldType}
+          onChange={(val: string) => updateValue("value", val)}
+        />
+      ) : (
+        <RangeInputs
+          values={inputValues.value || { min: 0, max: 10 }}
+          onChange={(val: string) => updateValue("value", val)}
+        />
+      )}
       <Button
         disabled={
           !!Object.values(inputValues).some((i) => i === null || i === "")
         }
-        onClick={handleAddRule}
+        onClick={(e) => handleAddRule(e)}
         text="+ Add rule"
       />
     </RuleInputsWrapper>
   );
-}
+};
 
-export default RuleInputs
+export default RuleInputs;

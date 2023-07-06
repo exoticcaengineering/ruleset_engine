@@ -4,7 +4,7 @@ import styled from 'styled-components'
 type Props = {
     text: string;
     disabled?: boolean;
-    onClick: () => void
+    onClick: (e: any) => void
 }
 
 const StyledButton = styled.button<{ disabled: boolean }>`

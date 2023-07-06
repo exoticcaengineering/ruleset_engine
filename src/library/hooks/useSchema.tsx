@@ -22,7 +22,6 @@ const useSchema = (url: string) => {
   useEffect(() => {
     const fetchSchema = async () => {
       try {
-        console.log(options);
         const { data } = await axios.get(url, options);
         setSchemaData(data);
       } catch (error) {

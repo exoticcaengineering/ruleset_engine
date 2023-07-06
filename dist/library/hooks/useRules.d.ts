@@ -6,8 +6,8 @@ type CallError = {
 declare const useRules: (url: string, discountUuid: string, discountName: string, rulesetType: RulesetType) => {
     existingRules: RuleValues[];
     setRules: import("react").Dispatch<import("react").SetStateAction<RuleValues[]>>;
-    addRule: (newRule: RuleValues) => Promise<void>;
-    removeRule: (rulesetField: string, rulesetOperator: string) => Promise<void>;
+    addRule: (newRule: RuleValues) => void;
+    removeRule: (rulesetField: string, rulesetOperator: string) => void;
     loadingRules: boolean;
     errorRules: CallError | undefined;
 };

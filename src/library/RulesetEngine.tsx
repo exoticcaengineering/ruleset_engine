@@ -8,6 +8,7 @@ import RulesList from "./components/RulesList/RulesList";
 import useSchema from "./hooks/useSchema";
 import LoadingState from "./ui/LoadingState";
 import useRules from "./hooks/useRules";
+import { dummySchema } from "./utilities/dummyData";
 type Props = {
   rulesetEndpoint: string;
   discountUuid: string;
@@ -27,22 +28,21 @@ const RulesetEngine = ({
     discountName,
     rulesetType
   );
-  const { error, schemaData, isLoading } = useSchema(
+  const { error, isLoading, schemaData } = useSchema(
     `${rulesetEndpoint}/schema`
   );
   console.log(error);
-
+    // const schemaData = dummySchema;
   const switchView = () => {
-    setRules([{ name: "placeholder", operator: "", value: "" }]);
+    setRules([{ name: "placeholder", operator: "", value: "", fieldType: undefined }]);
   };
 
   if (isLoading) return <LoadingState />;
 
   return (
-    <>
-      <h4>
-        Rules <span>{discountUuid}</span>
-      </h4>
+    <ThemeProvider theme={defaultTheme}>
+      <RulesetWrapper>
+        
       {!existingRules.length ? (
         <EmptyState switchView={switchView} />
       ) : (
@@ -59,23 +59,9 @@ const RulesetEngine = ({
           {/* <Table /> */}
         </>
       )}
-    </>
-  );
-};
-
-const App = ({ rulesetEndpoint, discountUuid, discountName, rulesetType }: Props) => {
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <RulesetWrapper>
-        <RulesetEngine
-          rulesetEndpoint={rulesetEndpoint}
-          discountUuid={discountUuid}
-          discountName={discountName}
-          rulesetType={rulesetType}
-        />
       </RulesetWrapper>
     </ThemeProvider>
   );
-}
+};
 
-export default App;
+export default RulesetEngine;

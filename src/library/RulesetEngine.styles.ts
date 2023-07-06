@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const RulesetWrapper = styled.div`
     width: 100%;
-    border: 1px solid ${({ theme }) => theme.colors.greyDark};
     min-height: 20px;
     box-sizing: border-box;
     padding: 0 20px 20px;

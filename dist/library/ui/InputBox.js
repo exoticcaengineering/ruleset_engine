@@ -15,8 +15,9 @@ const InputWrapper = styled.input `
   overflow: visible;
   box-sizing: border-box;
   padding: 0 7px;
-  border-style: ${({ readOnly }) => readOnly ? 'dashed' : 'solid'};
-  pointer-events: ${({ readOnly }) => readOnly ? 'none' : 'all'};
+  border-style: ${({ readOnly }) => (readOnly ? "dashed" : "solid")};
+  pointer-events: ${({ readOnly }) => (readOnly ? "none" : "all")};
+  border-radius: 3px;
 
   &::placeholder {
     font-style: italic;
@@ -34,6 +35,9 @@ const InputBox = ({ inputType, onChange, value, readOnly }) => {
             e.target.value = e.target.value.replace(/[^0-9 \,]/, "");
         onChange && onChange(e.target.value);
     };
+    if (inputType === "date") {
+        return (_jsx(InputWrapper, { ref: ref, type: "date", onInput: handleChange, defaultValue: value || "", placeholder: "Enter value", readOnly: !!readOnly }));
+    }
     return (_jsx(InputWrapper, { ref: ref, type: "text", onInput: handleChange, defaultValue: value || "", placeholder: "Enter value", readOnly: !!readOnly }));
 };
 export default InputBox;
